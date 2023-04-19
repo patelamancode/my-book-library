@@ -1,0 +1,21 @@
+.navbar {
+  overflow: hidden;
+  background-color: rgb(58, 56, 57);
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+.navbar h3 {
+  color: white;
+  margin-bottom: 0;
+}
+
+.navlinks {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
