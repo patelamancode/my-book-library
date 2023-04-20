@@ -4,23 +4,18 @@ import '../components/Card.css'
 
 const Home = () => {
 
-    const {bookData, favoriteBook, addFavoriteBook, readBook, markAsRead} = useContext(BookDataContext)
+    const {bookData, favoriteBook, addFavoriteBook, markAsRead} = useContext(BookDataContext)
 
     const checkFav = (book) =>{
         if(favoriteBook.find((item) => item.id === book.id)){
             return true;
         }
     }
-    const checkAsRead = (book) =>{
-        if(readBook.find((item) => item.id === book.id)){
-            return true;
-        }
-    }
-
+    
   return (
     <div>
       <h1>All Books</h1>
-      <div style={{display:'flex'}}>
+      <div style={{display:'flex', justifyContent:'space-evenly'}}>
         {bookData.map((book)=>{
             const {id,image,title,author,read} = book
             return(
@@ -29,7 +24,7 @@ const Home = () => {
                     <p><b>Title : </b>{title}</p>
                     <p><b>Author : </b>{author}</p>
                     <div className='btn-container'>
-                        <button disabled={read} onClick={()=>markAsRead(book)}>{checkAsRead(book) ? 'Already read' : 'Mark as read'}</button>
+                        <button disabled={read} onClick={()=>markAsRead(book)}>{read? 'Already read' : 'Mark as read'}</button>
                         <button onClick={()=>addFavoriteBook(book)}>{checkFav(book) ? 'Goto Fav' : 'Add to Fav'}</button>
                     </div>
                 </div>               

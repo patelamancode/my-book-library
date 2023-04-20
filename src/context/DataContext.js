@@ -7,14 +7,14 @@ export const BookDataContextProvider = ({children}) =>{
 
     const [bookData, setBookData] = useState([]);
     const [favoriteBook, setFavoriteBook] = useState([])
-    const [readBook, setReadBook] = useState([])
-
+    const [userData, setUserData] = useState()
+    
     const getData = async () =>{
         try{
             const response = await fakeFetch('https://example.com/api/books');
             if(response.status === 200){
                 setBookData(response.data.books)
-                setReadBook(response.data.books.filter(({read})=> read))
+                setUserData(response.data.user)
             } 
         }
         catch(error){
@@ -24,19 +24,23 @@ export const BookDataContextProvider = ({children}) =>{
     useEffect(()=>{
         getData()
     },[])
+    
 
     const addFavoriteBook = (userSelectedBook) =>{
-        const selectedBook = bookData.filter(({id}) => id === userSelectedBook);
+        const selectedBook = bookData.find(({id}) => id === userSelectedBook.id);
+        console.log(selectedBook);
         setFavoriteBook((favoriteBook) => [...favoriteBook, selectedBook])
     }
     
     const markAsRead = (userSelectedBook) =>{
-        const selectedBook = bookData.filter(({id})=> id === userSelectedBook.id)
-        setReadBook((readBook) => [...readBook, selectedBook])
+        const selectedBook = bookData.map((book)=>book.id === userSelectedBook.id ? {...book, read : !book.read} : book)
+        setBookData(selectedBook)
     }
+    const readBook = bookData.filter(({read})=> read)
+    
     
     return(
-        <BookDataContext.Provider value={{bookData, favoriteBook, addFavoriteBook, readBook, markAsRead }}>
+        <BookDataContext.Provider value={{bookData, favoriteBook, addFavoriteBook, markAsRead, readBook, userData }}>
             {children}
         </BookDataContext.Provider>
     )
